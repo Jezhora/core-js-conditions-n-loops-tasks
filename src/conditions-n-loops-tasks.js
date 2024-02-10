@@ -329,9 +329,48 @@ function getBalanceIndex(arr) {
  *          [10, 9,  8,  7]
  *        ]
  */
-function getSpiralMatrix(/* size */) {
-  throw new Error('Not implemented');
+function getSpiralMatrix(size) {
+  let count = 1;
+  const matrix = [];
+  let startRow = 0;
+  let endRow = size - 1;
+  let startCol = 0;
+  let endCol = size - 1;
+
+  for (let row = 0; row < size; row += 1) {
+    matrix[row] = [];
+  }
+
+  while (count <= size * size) {
+    for (let i = startCol; i <= endCol; i += 1) {
+      matrix[startRow][i] = count;
+      count += 1;
+    }
+    startRow += 1;
+
+    for (let i = startRow; i <= endRow; i += 1) {
+      matrix[i][endCol] = count;
+      count += 1;
+    }
+    endCol -= 1;
+
+    for (let i = endCol; i >= startCol; i -= 1) {
+      matrix[endRow][i] = count;
+      count += 1;
+    }
+    endRow -= 1;
+
+    for (let i = endRow; i >= startRow; i -= 1) {
+      matrix[i][startCol] = count;
+      count += 1;
+    }
+    startCol += 1;
+  }
+
+  return matrix;
 }
+
+// console.log(getSpiralMatrix(4));
 
 /**
  * Rotates a matrix by 90 degrees clockwise in place.
@@ -348,9 +387,36 @@ function getSpiralMatrix(/* size */) {
  *    [7, 8, 9]         [9, 6, 3]
  *  ]                 ]
  */
-function rotateMatrix(/* matrix */) {
-  throw new Error('Not implemented');
+function rotateMatrix(matrix) {
+  const newMatrix = [];
+  const copy = matrix;
+  const matrixSize = matrix.length - 1;
+
+  for (let row = 0; row < matrix.length; row += 1) {
+    newMatrix[row] = [];
+
+    for (let col = matrixSize; col >= 0; col -= 1) {
+      newMatrix[row][newMatrix[row].length] = matrix[col][row];
+    }
+  }
+
+  for (let row = 0; row < newMatrix.length; row += 1) {
+    for (let col = 0; col < newMatrix.length; col += 1) {
+      copy[row][col] = newMatrix[row][col];
+    }
+  }
+
+  return copy;
 }
+// console.log(
+//   rotateMatrix([
+//     [1, 2, 3, 4, 5],
+//     [6, 7, 8, 9, 10],
+//     [11, 12, 13, 14, 15],
+//     [16, 17, 18, 19, 20],
+//     [21, 22, 23, 24, 25],
+//   ])
+// );
 
 /**
  * Sorts an array of numbers in ascending order in place.
