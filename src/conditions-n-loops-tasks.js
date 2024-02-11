@@ -432,9 +432,36 @@ function rotateMatrix(matrix) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
-function sortByAsc(/* arr */) {
-  throw new Error('Not implemented');
+// function sortByAsc(arr) {
+//   const array = arr;
+//   for (let i = 0; i < array.length - 1; i += 1) {
+//     for (let j = 0; j < array.length - 1 - i; j += 1) {
+//       if (array[j] > array[j + 1]) {
+//         const template = array[j];
+//         array[j] = array[j + 1];
+//         array[j + 1] = template;
+//       }
+//     }
+//   }
+//   return array;
+// }
+// console.log(sortByAsc([-2, 9, 5, -3]));
+function sortByAsc(arr) {
+  const array = arr;
+
+  for (let i = 1; i < array.length; i += 1) {
+    let prev = i - 1;
+    const curr = array[i];
+
+    while (prev >= 0 && array[prev] > curr) {
+      array[prev + 1] = array[prev];
+      prev -= 1;
+    }
+    array[prev + 1] = curr;
+  }
+  return array;
 }
+// console.log(sortByAsc([-2, 9, 5, -3]));
 
 /**
  * Shuffles characters in a string so that the characters with an odd index are moved to the end of the string at each iteration.
@@ -498,9 +525,44 @@ function shuffleChar(str, iterations) {
  * @param {number} number The source number
  * @returns {number} The nearest larger number, or original number if none exists.
  */
-function getNearestBigger(/* number */) {
-  throw new Error('Not implemented');
+function getNearestBigger(number) {
+  const digits = [];
+  let tempNumber = number;
+  while (tempNumber > 0) {
+    const digit = tempNumber % 10;
+    digits.unshift(digit);
+    tempNumber = Math.floor(tempNumber / 10);
+  }
+
+  let i = digits.length - 2;
+  while (i >= 0 && digits[i] >= digits[i + 1]) {
+    i -= 1;
+  }
+
+  if (i === -1) {
+    return number;
+  }
+
+  let j = digits.length - 1;
+  while (digits[j] <= digits[i]) {
+    j -= 1;
+  }
+
+  [digits[i], digits[j]] = [digits[j], digits[i]];
+
+  let left = i + 1;
+  let right = digits.length - 1;
+  while (left < right) {
+    [digits[left], digits[right]] = [digits[right], digits[left]];
+    left += 1;
+    right -= 1;
+  }
+
+  const result = parseInt(digits.join(''), 10);
+
+  return result;
 }
+// console.log(getNearestBigger(1203450));
 
 module.exports = {
   isPositive,
